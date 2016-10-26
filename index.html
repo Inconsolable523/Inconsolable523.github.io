@@ -376,6 +376,186 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/26/外边距合并及解决方案/" itemprop="url">
+                  外边距合并及解决方案
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-26T19:57:12+08:00" content="2016-10-26">
+              2016-10-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/26/外边距合并及解决方案/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/26/外边距合并及解决方案/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/10/26/外边距合并及解决方案/" class="leancloud_visitors" data-flag-title="外边距合并及解决方案">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="外边距合并及解决方案"><a href="#外边距合并及解决方案" class="headerlink" title="外边距合并及解决方案"></a>外边距合并及解决方案</h1><h2 id="外边距合并"><a href="#外边距合并" class="headerlink" title="外边距合并"></a>外边距合并</h2><h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><p> 大家先看一段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">	&lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">	&lt;title&gt;测试&lt;/title&gt;</div><div class="line">	&lt;style type=&quot;text/css&quot;&gt;</div><div class="line">		.main&#123;</div><div class="line">			width: 200px;</div><div class="line">			height: 200px;</div><div class="line">			background-color: yellow;</div><div class="line">		&#125;</div><div class="line">		.side&#123;</div><div class="line">			width: 100px;</div><div class="line">			height: 100px;</div><div class="line">			background-color: red;</div><div class="line">			margin-top: 10px;//与.main保持10px的外边距</div><div class="line">		&#125;</div><div class="line">	&lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;div class=&quot;main&quot;&gt;</div><div class="line">	&lt;div class=&quot;side&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p><strong>效果：</strong></p>
+<p>很明显，我想子元素与父元素保持10px的上外边距的距离，实际效果确是子元素与父元素紧紧贴在一起。这个bug很常见，这就是“<strong>Collapsing margins</strong>”即由外边距造成的各元素边距合并。所以下面我们一起来探讨有关外边距合并。</p>
+<h3 id="外边距合并-1"><a href="#外边距合并-1" class="headerlink" title="外边距合并"></a>外边距合并</h3><p>这是W3C的官方介绍：</p>
+<blockquote>
+<p>In CSS, the adjoining margins of two or more boxes (which might or might not be siblings) can combine to form a single margin. Margins that combine this way are said to collapse, and the resulting combined margin is called a collapsed margin.</p>
+</blockquote>
+<p>大致意思是在普通流中的两个或者多个毗邻块元素(父元素或者子元素)垂直方向上的margin会发生叠加，即为外边距合并。</p>
+<p>普通流:除了绝对定位，float以外的代码。</p>
+<p>毗邻:没有被border，padding，clear以及非空内容分隔开。</p>
+<h3 id="出现合并的情况"><a href="#出现合并的情况" class="headerlink" title="出现合并的情况"></a>出现合并的情况</h3><p>只有上下外边距，直接接触才会发生合并的情况。</p>
+<h3 id="1-兄弟元素"><a href="#1-兄弟元素" class="headerlink" title="1. 兄弟元素"></a>1. 兄弟元素</h3><p>直接看代码吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;div style=&quot;height:100px; margin-bottom:50px; width:100px; background-color: red;&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;div style=&quot;height:50px; margin-top:100px; width:50px; background-color: green;&quot;&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>效果图：</p>
+<p><img src="http://a1.qpic.cn/psb?/V114Jw5T3xyEu8/T.CvQcygkPkTvQ1GE71mYsuVLLlAOESeacEPejBvsqY!/b/dLEAAAAAAAAA&amp;bo=SwG.AUsBvgEDByI!&amp;rf=viewer_4" alt=""></p>
+<p>很明显浏览器将兄弟的下边距和外边距合并了。</p>
+<h3 id="2-父与子元素"><a href="#2-父与子元素" class="headerlink" title="2. 父与子元素"></a>2. 父与子元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div style=&quot;height:50px; margin-top:50px; width:50px; background-color: red;&quot;&gt;</div><div class="line">    &lt;div style=&quot;height:50px; margin-top:100px; width:50px; background-color: green;&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>效果图：</p>
+<p><img src="http://a3.qpic.cn/psb?/V114Jw5T3xyEu8/MvbaD1yArAW8wWwQjGuxl3KvCskO7WBqUcBFgLjEJOQ!/b/dK0AAAAAAAAA&amp;bo=LgFXAS4BVwEDByI!&amp;rf=viewer_4" alt=""></p>
+<p>父元素与子元素合并，取子元素的上外边距100px，此时也为开头所示代码情形。</p>
+<h3 id="3-空元素"><a href="#3-空元素" class="headerlink" title="3. 空元素"></a>3. 空元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;div style=&quot;border:1px solid red; width:100px;&quot;&gt;</div><div class="line">    &lt;div style=&quot;margin-top: 100px;margin-bottom: 50px;&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>效果图：</p>
+<p><img src="http://a1.qpic.cn/psb?/V114Jw5T3xyEu8/5aRR4E92YGz4VpyBg3ze5lSPlwdu3N0VtrCH7yUz2t8!/b/dPYAAAAAAAAA&amp;bo=2QGHAdkBhwEDByI!&amp;rf=viewer_4" alt=""></p>
+<p>此时，父元素未设置高，利用外边距撑开，然而撑开后高仅为100px，而不是150px，很明显空元素上下外边距出现了合并。</p>
+<h3 id="4-其他"><a href="#4-其他" class="headerlink" title="4. 其他"></a>4. 其他</h3><p>其他情形则为以上三种的结合。</p>
+<h3 id="合并的计算方法"><a href="#合并的计算方法" class="headerlink" title="合并的计算方法"></a>合并的计算方法</h3><h3 id="1-参与合并的margin都是正值"><a href="#1-参与合并的margin都是正值" class="headerlink" title="1. 参与合并的margin都是正值"></a>1. 参与合并的margin都是正值</h3><pre><code>取其中margin较大的值为最终值。
+</code></pre><h3 id="2-参与合并的都是负值"><a href="#2-参与合并的都是负值" class="headerlink" title="2. 参与合并的都是负值"></a>2. 参与合并的都是负值</h3><pre><code>取其中绝对值较大的，从0位置，负向位移。
+</code></pre><h3 id="3-参与合并的有正有负"><a href="#3-参与合并的有正有负" class="headerlink" title="3. 参与合并的有正有负"></a>3. 参与合并的有正有负</h3><pre><code>取负值中绝对值较大的，和正值中最大的相加即可。
+</code></pre><h3 id="注意：相邻-兄弟节点，父子节点-的要一起参与计算，请看如下代码"><a href="#注意：相邻-兄弟节点，父子节点-的要一起参与计算，请看如下代码" class="headerlink" title="注意：相邻(兄弟节点，父子节点)的要一起参与计算，请看如下代码:"></a>注意：相邻(兄弟节点，父子节点)的要一起参与计算，请看如下代码:</h3><pre><code>&lt;div style=&quot;margin:50px 0; background-color:green; width:50px;&quot;&gt;
+    &lt;div style=&quot;margin:-60px 0;&quot;&gt;
+           &lt;div style=&quot;margin:150px 0;&quot;&gt;A&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&quot;margin:-100px 0; background-color:green; width:50px;&quot;&gt;
+    &lt;div style=&quot;margin:-120px 0;&quot;&gt;
+           &lt;div style=&quot;margin:200px 0;&quot;&gt;B&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>A和B产生的margin是6个margin合并的结果：</p>
+<ul>
+<li>正值：50px,150px,200px</li>
+<li>负值：-60px,-100px,-120px</li>
+</ul>
+<p>根据规则3，正值最大值为200px，负值中绝对值最大的-120px，所以最终margin应为200+（-120）=80px </p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>上面看了一大堆，是不是觉得反而将margin搞复杂了，在写代码的时候还要考虑margin的问题，真讨厌，也许你会说大不了慢慢用浏览器慢慢调式，可是未免也太浪费时间了，所以如何解决以及避免出现上述问题就显得很重要了。于是总结了如下几个方法，如果还有其他的，欢迎评论。</p>
+<ol>
+<li>给父元素创建<a href="http://kayosite.com/block-formatting-contexts-in-detail.html" target="_blank" rel="external">块级格式化上下文</a>;</li>
+<li>为父元素设置border，padding，或者设置某元素将父元素和第一个子元素隔开；</li>
+<li>给设置float，absolute，inline-block</li>
+</ol>
+<p>记得点赞，亲… (╯‵□′)╯</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/05/Markdown常用语法/" itemprop="url">
                   Markdown常用语法
                 </a>
@@ -530,7 +710,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -538,7 +718,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -547,7 +727,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
